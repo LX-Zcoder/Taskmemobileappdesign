@@ -1,0 +1,36 @@
+{
+  "name": "TaskMe - تطبيق إدارة المهام",
+  "short_name": "TaskMe",
+  "description": "تطبيق إدارة المهام والتذكيرات بتصميم Material You",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#3D5AFE",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "إضافة مهمة",
+      "short_name": "مهمة جديدة",
+      "description": "إضافة مهمة جديدة بسرعة",
+      "url": "/?action=add-task",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

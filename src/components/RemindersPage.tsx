@@ -11,9 +11,10 @@ interface Reminder {
 interface RemindersPageProps {
   reminders: Reminder[];
   onAddReminder: () => void;
+  onDeleteReminder: (id: string) => void;
 }
 
-export function RemindersPage({ reminders, onAddReminder }: RemindersPageProps) {
+export function RemindersPage({ reminders, onAddReminder, onDeleteReminder }: RemindersPageProps) {
   return (
     <div className="h-full flex flex-col" dir="rtl">
       {/* Header */}
@@ -47,7 +48,7 @@ export function RemindersPage({ reminders, onAddReminder }: RemindersPageProps) 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <ReminderCard reminder={reminder} />
+                <ReminderCard reminder={reminder} onDelete={onDeleteReminder} />
               </motion.div>
             ))}
           </motion.div>

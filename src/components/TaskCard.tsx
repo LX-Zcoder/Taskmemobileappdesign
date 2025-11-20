@@ -1,21 +1,23 @@
 import { motion } from "motion/react";
-import { Clock, CheckCircle2, Trash2, Calendar } from "lucide-react";
+import { Clock, CheckCircle2, Trash2, Calendar, Edit2 } from "lucide-react";
 import { useState } from "react";
+import { getDayNameAr } from "../utils/storage";
 
 interface TaskCardProps {
   task: {
     id: string;
     title: string;
     description?: string;
-    date: string;
+    day: string;
     time: string;
     completed: boolean;
   };
   onComplete: (id: string) => void;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
+export function TaskCard({ task, onComplete, onDelete, onEdit }: TaskCardProps) {
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -24,11 +26,15 @@ export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
     
     // Right swipe (for RTL, this is negative values) - complete
     if (info.offset.x < -100) {
-      onComplete(task.id);
+      if (window.confirm("هل تريد تأكيد إنجاز هذه المهمة؟")) {
+        onComplete(task.id);
+      }
     }
     // Left swipe (for RTL, this is positive values) - delete
     else if (info.offset.x > 100) {
-      onDelete(task.id);
+      if (window.confirm("هل تريد حذف هذه المهمة؟")) {
+        onDelete(task.id);
+      }
     }
     
     setDragX(0);
@@ -81,7 +87,7 @@ export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
-                <span>{task.date}</span>
+                <span>{getDayNameAr(task.day)}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
@@ -90,11 +96,36 @@ export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
             </div>
           </div>
           
-          {task.completed ? (
-            <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-          ) : (
-            <div className="w-6 h-6 rounded-full border-2 border-muted-foreground/30 flex-shrink-0" />
-          )}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {!task.completed && (
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(task.id);
+                }}
+                className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors"
+              >
+                <Edit2 className="w-4 h-4 text-primary" />
+              </motion.button>
+            )}
+            {task.completed ? (
+              <CheckCircle2 className="w-6 h-6 text-green-500" />
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm("هل تريد تأكيد إنجاز هذه المهمة؟")) {
+                    onComplete(task.id);
+                  }
+                }}
+                className="w-6 h-6 rounded-full border-2 border-muted-foreground/30 hover:border-green-500 hover:bg-green-500/10 transition-all"
+              />
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

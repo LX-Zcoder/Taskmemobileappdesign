@@ -1,16 +1,16 @@
 import { motion } from "motion/react";
-import { CheckSquare, Bell, Settings } from "lucide-react";
+import { CheckSquare, Bell, StickyNote } from "lucide-react";
 
 interface BottomNavProps {
-  activeTab: "tasks" | "reminders" | "settings";
-  onTabChange: (tab: "tasks" | "reminders" | "settings") => void;
+  activeTab: "tasks" | "reminders" | "notes";
+  onTabChange: (tab: "tasks" | "reminders" | "notes") => void;
 }
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   const tabs = [
     { id: "tasks" as const, icon: CheckSquare, label: "المهام" },
     { id: "reminders" as const, icon: Bell, label: "التذكيرات" },
-    { id: "settings" as const, icon: Settings, label: "الإعدادات" },
+    { id: "notes" as const, icon: StickyNote, label: "الملاحظات" },
   ];
 
   return (
